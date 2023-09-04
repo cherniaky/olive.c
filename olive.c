@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef int Errno;
-
 #define OLIVEC_SWAP(T, a, b)                                                   \
   do {                                                                         \
     T t = a;                                                                   \
