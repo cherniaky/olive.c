@@ -46,7 +46,7 @@ void olivec_fill_rect(uint32_t *pixels, size_t pixels_width,
 void olivec_fill_circle(uint32_t *pixels, size_t pixels_width,
                         size_t pixels_height, int cx, int cy, int r,
                         uint32_t color) {
-  if (r <= 0) {
+  if (r == 0) {
       return;
   }
 
