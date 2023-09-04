@@ -45,7 +45,7 @@
 char hexchar(uint8_t x) {
   if (x < 10)
     return x + '0';
-  if (10 <= x && x < 16)
+  if (x < 16)
     return x - 10 + 'A';
   UNREACHABLE("hexchar");
 }
