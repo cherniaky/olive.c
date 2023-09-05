@@ -32,6 +32,7 @@ bool checker_example(void) {
       if ((x + y) % 2 == 0) {
         color = 0xFF2020FF;
       }
+
       olivec_fill_rect(pixels, WIDTH, HEIGHT, x * CELL_WIDTH, y * CELL_HEIGHT,
                        CELL_WIDTH, CELL_HEIGHT, color);
     }
