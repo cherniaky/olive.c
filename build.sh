@@ -2,7 +2,7 @@
 
 set -xe
 
-cc -Wall -Wextra -ggdb -o ./bin/example example.c
-cc -Wall -Wextra -ggdb -o ./bin/test test.c -lm
-# ./bin/example
+cc -Wall -Wextra -ggdb -o ./bin/test -Ithirdparty test.c -lm
+cc -Wall -Wextra -ggdb -o ./bin/gallery -Ithirdparty -I. examples/gallery.c
+clang -Os -fno-builtin -Wall -Wextra -Wswitch-enum --target=wasm32 --no-standard-libraries -Wl,--no-entry -Wl,--export-all -Wl,--allow-undefined  -o ./bin/triangle.wasm -I. ./examples/triangle.c
 ./bin/test

@@ -1,8 +1,8 @@
 #ifndef OLIVE_C_
 #define OLIVE_C_
 
+#include <stddef.h>
 #include <stdint.h>
-#include <stdlib.h>
 
 #define OLIVEC_SWAP(T, a, b)                                                   \
   do {                                                                         \
