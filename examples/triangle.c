@@ -96,9 +96,6 @@ int main(void)
     }
 
 defer:
-    if (texture) SDL_DestroyTexture(texture);
-    if (renderer) SDL_DestroyRenderer(renderer);
-    if (window) SDL_DestroyWindow(window);
     switch (result) {
     case 0:
         printf("OK\n");
@@ -106,6 +103,9 @@ defer:
     default:
         fprintf(stderr, "SDL ERROR: %s\n", SDL_GetError());
     }
+    if (texture) SDL_DestroyTexture(texture);
+    if (renderer) SDL_DestroyRenderer(renderer);
+    if (window) SDL_DestroyWindow(window);
     SDL_Quit();
     return result;
 }
