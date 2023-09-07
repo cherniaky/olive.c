@@ -12,7 +12,7 @@ function make_environment(...envs) {
                     return env[prop];
                 }
             }
-            return (...args) => {console.error("NOT IMPLEMENTED: "+prop, args)}
+            return (...args) => { console.error("NOT IMPLEMENTED: " + prop, args) }
         }
     });
 }
@@ -36,9 +36,9 @@ WebAssembly.instantiateStreaming(fetch('./bin/triangle.wasm'), {
         const dt = timestamp - prev;
         prev = timestamp;
 
-        const pixels = w.instance.exports.render(dt*0.001);
+        const pixels = w.instance.exports.render(dt * 0.001);
         const buffer = w.instance.exports.memory.buffer;
-        const image = new ImageData(new Uint8ClampedArray(buffer, pixels, app.width*app.height*4), app.width);
+        const image = new ImageData(new Uint8ClampedArray(buffer, pixels, app.width * app.height * 4), app.width);
         ctx.putImageData(image, 0, 0);
 
         window.requestAnimationFrame(loop);

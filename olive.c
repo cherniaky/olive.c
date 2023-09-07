@@ -112,28 +112,25 @@ void olivec_draw_line(uint32_t *pixels, size_t pixels_width,
 }
 
 void olivec_sort_triangle_points_by_y(int *x1, int *y1, int *x2, int *y2,
-                                      int *x3, int *y3) {
-
-  if (*y1 > *y2) {
-    OLIVEC_SWAP(int, *x1, *x2);
-    OLIVEC_SWAP(int, *y1, *y2);
-  }
-
-  if (*y2 > *y3) {
-    OLIVEC_SWAP(int, *x2, *x3);
-    OLIVEC_SWAP(int, *y2, *y3);
-  }
-
-  if (*y1 > *y2) {
-    OLIVEC_SWAP(int, *x1, *x2);
-    OLIVEC_SWAP(int, *y1, *y2);
-  }
-}
+                                      int *x3, int *y3) {}
 
 void olivec_fill_triangle(uint32_t *pixels, size_t width, size_t height, int x1,
                           int y1, int x2, int y2, int x3, int y3,
                           uint32_t color) {
-  olivec_sort_triangle_points_by_y(&x1, &y1, &x2, &y2, &x3, &y3);
+  if (y1 > y2) {
+    OLIVEC_SWAP(int, x1, x2);
+    OLIVEC_SWAP(int, y1, y2);
+  }
+
+  if (y2 > y3) {
+    OLIVEC_SWAP(int, x2, x3);
+    OLIVEC_SWAP(int, y2, y3);
+  }
+
+  if (y1 > y2) {
+    OLIVEC_SWAP(int, x1, x2);
+    OLIVEC_SWAP(int, y1, y2);
+  }
 
   int dx12 = x2 - x1;
   int dy12 = y2 - y1;
