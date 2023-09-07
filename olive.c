@@ -111,9 +111,6 @@ void olivec_draw_line(uint32_t *pixels, size_t pixels_width,
   }
 }
 
-void olivec_sort_triangle_points_by_y(int *x1, int *y1, int *x2, int *y2,
-                                      int *x3, int *y3) {}
-
 void olivec_fill_triangle(uint32_t *pixels, size_t width, size_t height, int x1,
                           int y1, int x2, int y2, int x3, int y3,
                           uint32_t color) {
