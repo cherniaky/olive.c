@@ -81,9 +81,10 @@ bool record_test_case(const char *expected_file_path) {
 
 typedef enum { REPLAY_PASSED, REPLAY_FAILED, REPLAY_ERRORED } Replay_Result;
 
-Replay_Result replay_test_case(const char *program_path, const char *expected_file_path,
-                      const char *actual_file_path,
-                      const char *diff_file_path) {
+Replay_Result replay_test_case(const char *program_path,
+                               const char *expected_file_path,
+                               const char *actual_file_path,
+                               const char *diff_file_path) {
   Replay_Result result = REPLAY_PASSED;
   uint32_t *expected_pixels = NULL;
 
@@ -236,11 +237,24 @@ void test_fill_triangle(void) {
   }
 }
 
+void test_alpha_blending(void) {
+  olivec_fill(actual_pixels, WIDTH, HEIGHT, BACKGROUND_COLOR);
+  olivec_fill_rect(actual_pixels, WIDTH, HEIGHT, 0, 0, WIDTH * 3 / 4,
+                   HEIGHT * 3 / 4, RED_COLOR);
+  olivec_fill_rect(actual_pixels, WIDTH, HEIGHT, WIDTH - 1, HEIGHT - 1,
+                   -WIDTH * 3 / 4, -HEIGHT * 3 / 4, 0x5520AA20);
+  olivec_fill_circle(actual_pixels, WIDTH, HEIGHT, WIDTH / 2, HEIGHT / 2,
+                     WIDTH / 4, 0xBBAA2020);
+  olivec_fill_triangle(actual_pixels, WIDTH, HEIGHT, 0, HEIGHT, WIDTH, HEIGHT,
+                       WIDTH / 2, 0, 0xBB20AAAA);
+}
+
 Test_Case test_cases[] = {
     DEFINE_TEST_CASE(test_fill_rect),
     DEFINE_TEST_CASE(test_fill_circle),
     DEFINE_TEST_CASE(test_draw_line),
     DEFINE_TEST_CASE(test_fill_triangle),
+    DEFINE_TEST_CASE(test_alpha_blending),
 };
 #define TEST_CASES_COUNT (sizeof(test_cases) / sizeof(test_cases[0]))
 
