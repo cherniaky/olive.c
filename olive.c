@@ -87,6 +87,7 @@ uint8_t olivec_mix_comps(uint16_t c1, uint16_t c2, uint16_t a) {
 
 uint32_t olivec_mix_colors(uint32_t c1, uint32_t c2) {
   uint8_t comp1[COUNT_COMPS];
+
   unpack_rgba32(c1, comp1);
 
   uint8_t comp2[COUNT_COMPS];
