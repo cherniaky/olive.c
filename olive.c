@@ -28,8 +28,30 @@ typedef struct {
 #define OLIVEC_CANVAS_NULL ((Olivec_Canvas){0})
 #define OLIVEC_PIXEL(oc, x, y) (oc).pixels[(y) * (oc).stride + (x)]
 
-OLIVECDEF Olivec_Canvas olivec_make_canvas(uint32_t *pixels, size_t width,
-                                           size_t height) {
+OLIVECDEF Olivec_Canvas olivec_canvas(uint32_t *pixels, size_t width,
+                                      size_t height);
+OLIVECDEF Olivec_Canvas olivec_subcanvas(Olivec_Canvas oc, int x, int y, int w,
+                                         int h);
+OLIVECDEF void olivec_blend_color(uint32_t *c1, uint32_t c2);
+OLIVECDEF void olivec_fill(Olivec_Canvas oc, uint32_t color);
+OLIVECDEF void olivec_rect(Olivec_Canvas oc, int x, int y, int w, int h,
+                           uint32_t color);
+OLIVECDEF void olivec_circle(Olivec_Canvas oc, int cx, int cy, int r,
+                             uint32_t color);
+// TODO: lines with different thicness
+OLIVECDEF void olivec_line(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
+                           uint32_t color);
+OLIVECDEF void olivec_triangle(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
+                               int x3, int y3, uint32_t color);
+OLIVECDEF bool olivec_normalize_rect(int x, int y, int w, int h,
+                                     size_t pixels_width, size_t pixels_height,
+                                     int *x1, int *x2, int *y1, int *y2);
+
+#endif // OLIVE_C_
+
+#ifdef OLIVEC_IMPLEMENTATION
+OLIVECDEF Olivec_Canvas olivec_canvas(uint32_t *pixels, size_t width,
+                                      size_t height) {
   Olivec_Canvas oc = {
       .pixels = pixels,
       .width = width,
@@ -245,4 +267,4 @@ OLIVECDEF void olivec_triangle(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
   }
 }
 
-#endif // OLIVE_C_
+#endif // OLIVEC_IMPLEMENTATION

@@ -1,3 +1,4 @@
+#define OLIVEC_IMPLEMENTATION
 #include "olive.c"
 #include <errno.h>
 #include <stdbool.h>
@@ -24,7 +25,7 @@
 static uint32_t pixels[WIDTH * HEIGHT];
 
 bool checker_example(void) {
-  Olivec_Canvas oc = olivec_make_canvas(pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT);
 
   olivec_fill(oc, BACKGROUND_COLOR);
 
@@ -54,7 +55,7 @@ bool checker_example(void) {
 float lerpf(float a, float b, float t) { return a + (b - a) * t; }
 
 bool circle_example(void) {
-  Olivec_Canvas oc = olivec_make_canvas(pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT);
   olivec_fill(oc, BACKGROUND_COLOR);
 
   for (int y = 0; y < ROWS; ++y) {
@@ -84,7 +85,7 @@ bool circle_example(void) {
 }
 
 bool lines_example(void) {
-  Olivec_Canvas oc = olivec_make_canvas(pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT);
 
   olivec_fill(oc, BACKGROUND_COLOR);
   olivec_line(oc, 0, 0, WIDTH, HEIGHT, FOREGROUND_COLOR);

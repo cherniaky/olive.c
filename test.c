@@ -11,6 +11,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+#define OLIVEC_IMPLEMENTATION
 #include "olive.c"
 
 #define return_defer(value)                                                    \
@@ -181,7 +182,7 @@ typedef struct {
   }
 
 void test_fill_rect(void) {
-  Olivec_Canvas oc = olivec_make_canvas(actual_pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(actual_pixels, WIDTH, HEIGHT);
   olivec_fill(oc, BACKGROUND_COLOR);
   olivec_rect(oc, WIDTH / 2 - WIDTH / 8, HEIGHT / 2 - HEIGHT / 8, WIDTH / 4,
               HEIGHT / 4, RED_COLOR);
@@ -190,7 +191,7 @@ void test_fill_rect(void) {
 }
 
 void test_fill_circle(void) {
-  Olivec_Canvas oc = olivec_make_canvas(actual_pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(actual_pixels, WIDTH, HEIGHT);
   olivec_fill(oc, BACKGROUND_COLOR);
   olivec_circle(oc, 0, 0, WIDTH / 2, RED_COLOR);
   olivec_circle(oc, WIDTH / 2, HEIGHT / 2, WIDTH / 4, BLUE_COLOR);
@@ -198,7 +199,7 @@ void test_fill_circle(void) {
 }
 
 void test_draw_line(void) {
-  Olivec_Canvas oc = olivec_make_canvas(actual_pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(actual_pixels, WIDTH, HEIGHT);
   olivec_fill(oc, BACKGROUND_COLOR);
   olivec_line(oc, 0, 0, WIDTH, HEIGHT, RED_COLOR);
   olivec_line(oc, WIDTH, 0, 0, HEIGHT, BLUE_COLOR);
@@ -206,7 +207,7 @@ void test_draw_line(void) {
 }
 
 void test_fill_triangle(void) {
-  Olivec_Canvas oc = olivec_make_canvas(actual_pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(actual_pixels, WIDTH, HEIGHT);
 
   olivec_fill(oc, BACKGROUND_COLOR);
 
@@ -233,7 +234,7 @@ void test_fill_triangle(void) {
 }
 
 void test_alpha_blending(void) {
-  Olivec_Canvas oc = olivec_make_canvas(actual_pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(actual_pixels, WIDTH, HEIGHT);
   olivec_fill(oc, BACKGROUND_COLOR);
   olivec_rect(oc, 0, 0, WIDTH * 3 / 4, HEIGHT * 3 / 4, RED_COLOR);
   olivec_rect(oc, WIDTH - 1, HEIGHT - 1, -WIDTH * 3 / 4, -HEIGHT * 3 / 4,

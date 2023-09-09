@@ -1,3 +1,4 @@
+#define OLIVEC_IMPLEMENTATION
 #include "olive.c"
 
 #define WIDTH 800
@@ -30,7 +31,7 @@ static inline void rotate_point(float *x, float *y) {
 }
 
 uint32_t *render(float dt) {
-  Olivec_Canvas oc = olivec_make_canvas(pixels, WIDTH, HEIGHT);
+  Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT);
 
   olivec_fill(oc, BACKGROUND_COLOR);
 
