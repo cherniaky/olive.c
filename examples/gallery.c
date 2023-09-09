@@ -24,7 +24,9 @@
 static uint32_t pixels[WIDTH * HEIGHT];
 
 bool checker_example(void) {
-  olivec_fill(pixels, WIDTH, HEIGHT, BACKGROUND_COLOR);
+  Olivec_Canvas oc = olivec_make_canvas(pixels, WIDTH, HEIGHT);
+
+  olivec_fill(oc, BACKGROUND_COLOR);
 
   for (int y = 0; y < ROWS; ++y) {
     for (int x = 0; x < COLS; ++x) {
@@ -33,14 +35,14 @@ bool checker_example(void) {
         color = 0xFF2020FF;
       }
 
-      olivec_fill_rect(pixels, WIDTH, HEIGHT, x * CELL_WIDTH, y * CELL_HEIGHT,
-                       CELL_WIDTH, CELL_HEIGHT, color);
+      olivec_rect(oc, x * CELL_WIDTH, y * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT,
+                  color);
     }
   }
 
   const char *file_path = IMGS_DIR_PATH "/checker.png";
   if (!stbi_write_png(file_path, WIDTH, HEIGHT, 4, pixels,
-                     WIDTH * sizeof(uint32_t))) {
+                      WIDTH * sizeof(uint32_t))) {
     fprintf(stderr, "ERROR: could not save file %s: %s\n", file_path,
             strerror(errno));
     return false;
@@ -52,7 +54,8 @@ bool checker_example(void) {
 float lerpf(float a, float b, float t) { return a + (b - a) * t; }
 
 bool circle_example(void) {
-  olivec_fill(pixels, WIDTH, HEIGHT, BACKGROUND_COLOR);
+  Olivec_Canvas oc = olivec_make_canvas(pixels, WIDTH, HEIGHT);
+  olivec_fill(oc, BACKGROUND_COLOR);
 
   for (int y = 0; y < ROWS; ++y) {
     for (int x = 0; x < COLS; ++x) {
@@ -64,16 +67,15 @@ bool circle_example(void) {
       if (CELL_HEIGHT < radius)
         radius = CELL_HEIGHT;
 
-      olivec_fill_circle(pixels, WIDTH, HEIGHT, x * CELL_WIDTH + CELL_WIDTH / 2,
-                         y * CELL_HEIGHT + CELL_HEIGHT / 2,
-                         (size_t)lerpf(radius / 8, radius / 2, t),
-                         FOREGROUND_COLOR);
+      olivec_circle(oc, x * CELL_WIDTH + CELL_WIDTH / 2,
+                    y * CELL_HEIGHT + CELL_HEIGHT / 2,
+                    (size_t)lerpf(radius / 8, radius / 2, t), FOREGROUND_COLOR);
     }
   }
 
   const char *file_path = IMGS_DIR_PATH "/circle.png";
   if (!stbi_write_png(file_path, WIDTH, HEIGHT, 4, pixels,
-                     WIDTH * sizeof(uint32_t))) {
+                      WIDTH * sizeof(uint32_t))) {
     fprintf(stderr, "ERROR: could not save file %s: %s\n", file_path,
             strerror(errno));
     return false;
@@ -82,33 +84,21 @@ bool circle_example(void) {
 }
 
 bool lines_example(void) {
-  olivec_fill(pixels, WIDTH, HEIGHT, BACKGROUND_COLOR);
+  Olivec_Canvas oc = olivec_make_canvas(pixels, WIDTH, HEIGHT);
 
-  olivec_draw_line(pixels, WIDTH, HEIGHT, 0, 0, WIDTH, HEIGHT,
-                   FOREGROUND_COLOR);
-
-  olivec_draw_line(pixels, WIDTH, HEIGHT, WIDTH, 0, 0, HEIGHT,
-                   FOREGROUND_COLOR);
-
-  olivec_draw_line(pixels, WIDTH, HEIGHT, 0, 0, WIDTH / 4, HEIGHT, 0xFF20FF20);
-
-  olivec_draw_line(pixels, WIDTH, HEIGHT, WIDTH / 4, 0, 0, HEIGHT, 0xFF20FF20);
-
-  olivec_draw_line(pixels, WIDTH, HEIGHT, WIDTH, 0, WIDTH / 4 * 3, HEIGHT,
-                   0xFF20FF20);
-
-  olivec_draw_line(pixels, WIDTH, HEIGHT, WIDTH / 4 * 3, 0, WIDTH, HEIGHT,
-                   0xFF20FF20);
-
-  olivec_draw_line(pixels, WIDTH, HEIGHT, 0, HEIGHT / 2, WIDTH, HEIGHT / 2,
-                   0xFFFF3030);
-
-  olivec_draw_line(pixels, WIDTH, HEIGHT, WIDTH / 2, 0, WIDTH / 2, HEIGHT,
-                   0xFFFF3030);
+  olivec_fill(oc, BACKGROUND_COLOR);
+  olivec_line(oc, 0, 0, WIDTH, HEIGHT, FOREGROUND_COLOR);
+  olivec_line(oc, WIDTH, 0, 0, HEIGHT, FOREGROUND_COLOR);
+  olivec_line(oc, 0, 0, WIDTH / 4, HEIGHT, 0xFF20FF20);
+  olivec_line(oc, WIDTH / 4, 0, 0, HEIGHT, 0xFF20FF20);
+  olivec_line(oc, WIDTH, 0, WIDTH / 4 * 3, HEIGHT, 0xFF20FF20);
+  olivec_line(oc, WIDTH / 4 * 3, 0, WIDTH, HEIGHT, 0xFF20FF20);
+  olivec_line(oc, 0, HEIGHT / 2, WIDTH, HEIGHT / 2, 0xFFFF3030);
+  olivec_line(oc, WIDTH / 2, 0, WIDTH / 2, HEIGHT, 0xFFFF3030);
 
   const char *file_path = IMGS_DIR_PATH "/lines.png";
   if (!stbi_write_png(file_path, WIDTH, HEIGHT, 4, pixels,
-                     WIDTH * sizeof(uint32_t))) {
+                      WIDTH * sizeof(uint32_t))) {
     fprintf(stderr, "ERROR: could not save file %s: %s\n", file_path,
             strerror(errno));
     return false;
