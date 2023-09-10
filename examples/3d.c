@@ -15,7 +15,8 @@ float cosf(float x);
 #define GRID_PAD 0.5 / GRID_COUNT
 #define GRID_SIZE ((GRID_COUNT - 1) * GRID_PAD)
 #define CIRCLE_RADIUS 5
-#define Z_START 0.2
+#define Z_START 0.5
+#define ABOBA_PADDING 50
 
 static uint32_t pixels[WIDTH * HEIGHT];
 static float angle = 0;
@@ -61,6 +62,11 @@ uint32_t *render(float dt) {
       }
     }
   }
+
+  size_t size = 8;
+  olivec_text(oc, "aboba", ABOBA_PADDING,
+              HEIGHT - ABOBA_PADDING - default_font.height * size, default_font,
+              size, 0xFFFFFFFF);
 
   return pixels;
 }
