@@ -333,6 +333,7 @@ OLIVECDEF void olivec_triangle(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
     if (0 <= y && (size_t)y < oc.height) {
       int s1 = dy12 != 0 ? (y - y1) * dx12 / dy12 + x1 : x1;
       int s2 = dy13 != 0 ? (y - y1) * dx13 / dy13 + x1 : x1;
+
       if (s1 > s2)
         OLIVEC_SWAP(int, s1, s2);
       for (int x = s1; x <= s2; ++x) {
