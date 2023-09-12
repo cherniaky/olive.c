@@ -5,15 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
-#define OLIVEC_IMPLEMENTATION
-#include "olive.c"
-
 #define return_defer(value)                                                    \
   do {                                                                         \
     result = (value);                                                          \
@@ -31,6 +22,38 @@
     fprintf(stderr, "%s:%d: UNREACHABLE: %s\n", __FILE__, __LINE__, message);  \
     exit(1);                                                                   \
   } while (0)
+
+#define ARENA_IMPLEMENTATION
+#include "./arena.h"
+
+static Arena default_arena = {0};
+static Arena *context_arena = &default_arena;
+
+static void *context_alloc(size_t size) {
+  assert(context_arena);
+  return arena_alloc(context_arena, size);
+}
+
+static void *context_realloc(void *oldp, size_t oldsz, size_t newsz) {
+  if (newsz <= oldsz)
+    return oldp;
+  return memcpy(context_alloc(newsz), oldp, oldsz);
+}
+
+#define STBI_MALLOC context_alloc
+#define STBI_FREE UNUSED
+#define STBI_REALLOC_SIZED context_realloc
+#define STB_IMAGE_IMPLEMENTATION
+#include "./stb_image.h"
+
+#define STBIW_MALLOC STBI_MALLOC
+#define STBIW_FREE STBI_FREE
+#define STBIW_REALLOC_SIZED STBI_REALLOC_SIZED
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "./stb_image_write.h"
+
+#define OLIVEC_IMPLEMENTATION
+#include "olive.c"
 
 #define WIDTH 128
 #define HEIGHT 128
@@ -86,84 +109,74 @@ Replay_Result replay_test_case(const char *program_path,
                                const char *expected_file_path,
                                const char *actual_file_path,
                                const char *diff_file_path) {
-  Replay_Result result = REPLAY_PASSED;
-  uint32_t *expected_pixels = NULL;
-
-  {
-    int expected_width, expected_height;
-    expected_pixels = (uint32_t *)stbi_load(expected_file_path, &expected_width,
-                                            &expected_height, NULL, 4);
-    if (expected_pixels == NULL) {
-      fprintf(stderr, "%s: ERROR: could not read the file: %s\n",
-              expected_file_path, strerror(errno));
-      if (errno == ENOENT) {
-        fprintf(stderr,
-                "%s: HINT: Consider running `$ %s record` to create it\n",
-                expected_file_path, program_path);
-      }
-      return_defer(REPLAY_ERRORED);
-    }
-
-    if (expected_width != WIDTH || expected_height != HEIGHT) {
-      fprintf(stderr,
-              "%s: TEST FAILURE: unexpected image size. Expected %dx%d, but "
-              "got %dx%d\n",
-              expected_file_path, expected_width, expected_height, WIDTH,
-              HEIGHT);
-      return_defer(REPLAY_FAILED);
-    }
-
-    bool failed = false;
-    for (size_t y = 0; y < HEIGHT; ++y) {
-      for (size_t x = 0; x < WIDTH; ++x) {
-        uint32_t expected_pixel = expected_pixels[y * WIDTH + x];
-        uint32_t actual_pixel = actual_pixels[y * WIDTH + x];
-        if (expected_pixel != actual_pixel) {
-          diff_pixels[y * WIDTH + x] = ERROR_COLOR;
-          failed = true;
-        } else {
-          diff_pixels[y * WIDTH + x] = expected_pixel;
-        }
-      }
-    }
-
-    if (failed) {
-      fprintf(stderr,
-              "%s: TEST FAILURE: unexpected pixels in generated image\n",
-              expected_file_path);
-
-      if (!stbi_write_png(actual_file_path, WIDTH, HEIGHT, 4, actual_pixels,
-                          sizeof(uint32_t) * WIDTH)) {
-        fprintf(stderr,
-                "ERROR: could not generate image with actual pixels %s: %s\n",
-                actual_file_path, strerror(errno));
-        return_defer(REPLAY_ERRORED);
-      }
-
-      if (!stbi_write_png(diff_file_path, WIDTH, HEIGHT, 4, diff_pixels,
-                          sizeof(uint32_t) * WIDTH)) {
-        fprintf(stderr, "ERROR: could not generate diff image %s: %s\n",
-                diff_file_path, strerror(errno));
-        return_defer(REPLAY_ERRORED);
-      }
-      fprintf(stderr, "%s: HINT: See actual image %s\n", expected_file_path,
-              actual_file_path);
-      fprintf(stderr, "%s: HINT: See diff image %s\n", expected_file_path,
-              diff_file_path);
-      fprintf(stderr,
-              "%s: HINT: If this behaviour is intentional confirm that by "
-              "updating the image with `$ %s record`\n",
+  int expected_width, expected_height;
+  uint32_t *expected_pixels = (uint32_t *)stbi_load(
+      expected_file_path, &expected_width, &expected_height, NULL, 4);
+  if (expected_pixels == NULL) {
+    fprintf(stderr, "%s: ERROR: could not read the file: %s\n",
+            expected_file_path, strerror(errno));
+    if (errno == ENOENT) {
+      fprintf(stderr, "%s: HINT: Consider running `$ %s record` to create it\n",
               expected_file_path, program_path);
-      return_defer(REPLAY_FAILED);
     }
-
-    printf("%s OK\n", expected_file_path);
+    return (REPLAY_ERRORED);
   }
 
-defer:
-  if (expected_pixels)
-    stbi_image_free(expected_pixels);
-  return result;
+  if (expected_width != WIDTH || expected_height != HEIGHT) {
+    fprintf(stderr,
+            "%s: TEST FAILURE: unexpected image size. Expected %dx%d, but "
+            "got %dx%d\n",
+            expected_file_path, expected_width, expected_height, WIDTH, HEIGHT);
+    return (REPLAY_FAILED);
+  }
+
+  bool failed = false;
+  for (size_t y = 0; y < HEIGHT; ++y) {
+    for (size_t x = 0; x < WIDTH; ++x) {
+      uint32_t expected_pixel = expected_pixels[y * WIDTH + x];
+      uint32_t actual_pixel = actual_pixels[y * WIDTH + x];
+      if (expected_pixel != actual_pixel) {
+        diff_pixels[y * WIDTH + x] = ERROR_COLOR;
+        failed = true;
+      } else {
+        diff_pixels[y * WIDTH + x] = expected_pixel;
+      }
+    }
+  }
+
+  if (failed) {
+    fprintf(stderr, "%s: TEST FAILURE: unexpected pixels in generated image\n",
+            expected_file_path);
+
+    if (!stbi_write_png(actual_file_path, WIDTH, HEIGHT, 4, actual_pixels,
+                        sizeof(uint32_t) * WIDTH)) {
+      fprintf(stderr,
+              "ERROR: could not generate image with actual pixels %s: %s\n",
+              actual_file_path, strerror(errno));
+      return (REPLAY_ERRORED);
+    }
+
+    if (!stbi_write_png(diff_file_path, WIDTH, HEIGHT, 4, diff_pixels,
+                        sizeof(uint32_t) * WIDTH)) {
+      fprintf(stderr, "ERROR: could not generate diff image %s: %s\n",
+              diff_file_path, strerror(errno));
+      return (REPLAY_ERRORED);
+    }
+
+    fprintf(stderr, "%s: HINT: See actual image %s\n", expected_file_path,
+            actual_file_path);
+    fprintf(stderr, "%s: HINT: See diff image %s\n", expected_file_path,
+            diff_file_path);
+    fprintf(stderr,
+            "%s: HINT: If this behaviour is intentional confirm that by "
+            "updating the image with `$ %s record`\n",
+            expected_file_path, program_path);
+    return (REPLAY_FAILED);
+  }
+
+  printf("%s OK\n", expected_file_path);
+
+  return (REPLAY_PASSED);
 }
 
 typedef struct {
@@ -251,6 +264,8 @@ Test_Case test_cases[] = {
 #define TEST_CASES_COUNT (sizeof(test_cases) / sizeof(test_cases[0]))
 
 int main(int argc, char **argv) {
+  int result = 0;
+
   assert(argc >= 1);
   const char *program_path = argv[0];
 
@@ -260,13 +275,16 @@ int main(int argc, char **argv) {
     test_cases[i].generate_actual_pixels();
     if (record) {
       if (!record_test_case(test_cases[i].expected_file_path))
-        return 1;
+        return_defer(1);
     } else {
       if (replay_test_case(program_path, test_cases[i].expected_file_path,
                            test_cases[i].actual_file_path,
                            test_cases[i].diff_file_path) == REPLAY_ERRORED)
-        return 1;
+        return_defer(1);
     }
   }
-  return 0;
+
+  defer:
+    arena_free(&default_arena);
+    return result;
 }
