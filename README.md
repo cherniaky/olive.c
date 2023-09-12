@@ -2,15 +2,9 @@
 
 Simple 2D Graphics Library for C
 
+Simple graphics library that does not have any dependencies and renders everything into the given memory pixel by pixel. Visit [https://cherniakyura.github.io/olive.c/](https://cherniakyura.github.io/olive.c/) to see some demos.
+
 ## Quick Start
-
-## Gallery
-
-![checker](./imgs/checker.png)
-
-![circle](./imgs/circle.png)
-
-![lines](./imgs/lines.png)
 
 > The truly reusable code is the one that you can simply copy-paste.
 
