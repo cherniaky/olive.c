@@ -52,7 +52,3 @@ async function startExample(elementId, wasmPath) {
     }
     window.requestAnimationFrame(first);
 }
-
-startExample("app-triangle", "./build/triangle.wasm");
-startExample("app-3d", "./build/3d.wasm");
-startExample("app-squish", "./build/squish.wasm");
