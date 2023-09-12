@@ -1,7 +1,7 @@
 #define OLIVEC_IMPLEMENTATION
 #include "./olive.c"
 
-#include "./assets/tsodinPog.c"
+#include "./assets/nikita.c"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -29,8 +29,8 @@ uint32_t *render(float dt)
     Olivec_Canvas dst_canvas = olivec_canvas(dst, WIDTH, HEIGHT, WIDTH);
 
     int factor = 100;
-    int w = png_width*SRC_SCALE - t*factor;
-    int h = png_height*SRC_SCALE + t*factor;
+    int w = 400 - t*factor;
+    int h = 400 + t*factor;
 
     olivec_copy(
         olivec_canvas(png, png_width, png_height, png_width),
