@@ -17,7 +17,7 @@ clang -Wall -Wextra -ggdb -o ./build/png2c -Ithirdparty png2c.c -lm &
 wait
 
 mkdir -p ./build/assets/
-./build/png2c ./assets/tsodinPog.png > ./build/assets/tsodinPog.c
+./build/png2c ./assets/nikita.png > ./build/assets/nikita.c
 
 build_vc_example triangle &
 build_vc_example 3d &
