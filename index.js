@@ -17,7 +17,7 @@ function make_environment(...envs) {
     });
 }
 
-WebAssembly.instantiateStreaming(fetch('./bin/3d.wasm'), {
+WebAssembly.instantiateStreaming(fetch('./build/squish.wasm'), {
     "env": make_environment({
         "atan2f": Math.atan2,
         "cosf": Math.cos,
@@ -43,5 +43,6 @@ WebAssembly.instantiateStreaming(fetch('./bin/3d.wasm'), {
 
         window.requestAnimationFrame(loop);
     }
+    w.instance.exports.init();
     window.requestAnimationFrame(first);
 })
