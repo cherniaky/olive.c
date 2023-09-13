@@ -75,7 +75,6 @@ void compress_pixels(uint32_t *pixels) {
 }
 
 int main(void) {
-  init();
 
   for (;;) {
     compress_pixels(render(1.f / 60.f));
