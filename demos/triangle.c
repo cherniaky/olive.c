@@ -1,9 +1,8 @@
-#define OLIVEC_IMPLEMENTATION
-#include "olive.c"
+#define SCALE_DOWN_FACTOR 20
+#include "vc.c"
 
 #define WIDTH 960
 #define HEIGHT 720
-#define SCALE_DOWN_FACTOR 10
 #define BACKGROUND_COLOR 0xFF181818
 #define CIRCLE_RADIUS 100
 #define CIRCLE_COLOR 0x99AA2020
@@ -70,4 +69,3 @@ Olivec_Canvas render(float dt) {
   return oc;
 }
 
-#include "vc.c"

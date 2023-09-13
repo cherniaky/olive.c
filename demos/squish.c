@@ -1,11 +1,10 @@
-#define OLIVEC_IMPLEMENTATION
-#include "./olive.c"
+#define SCALE_DOWN_FACTOR 10
+#include "vc.c"
 
 #include "./assets/nikita.c"
 
 #define WIDTH 960
 #define HEIGHT 720
-#define SCALE_DOWN_FACTOR 10
 
 float sinf(float);
 
@@ -36,4 +35,3 @@ Olivec_Canvas render(float dt)
     return dst_canvas;
 }
 
-#include "vc.c"

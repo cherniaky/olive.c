@@ -1,5 +1,5 @@
-#define OLIVEC_IMPLEMENTATION
-#include "olive.c"
+#define SCALE_DOWN_FACTOR 10
+#include "vc.c"
 
 float sqrtf(float x);
 float atan2f(float y, float x);
@@ -10,7 +10,6 @@ float cosf(float x);
 
 #define WIDTH 960
 #define HEIGHT 720
-#define SCALE_DOWN_FACTOR 10
 #define BACKGROUND_COLOR 0xFF181818
 #define GRID_COUNT 10
 #define GRID_PAD 0.5 / GRID_COUNT
@@ -72,4 +71,3 @@ Olivec_Canvas render(float dt) {
   return oc;
 }
 
-#include "vc.c"

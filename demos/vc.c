@@ -1,5 +1,14 @@
+#define OLIVEC_IMPLEMENTATION
+#include <olive.c>
+
+Olivec_Canvas render(float dt);
+
 #define WASM_PLATFORM 0
 #define TERM_PLATFORM 1
+
+#ifndef PLATFORM
+#error "Please define PLATFORM macro"
+#endif
 
 #if PLATFORM == TERM_PLATFORM
 
