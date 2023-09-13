@@ -31,7 +31,7 @@ static inline void rotate_point(float *x, float *y) {
   *y = sinf(dir) * mag + HEIGHT / 2;
 }
 
-uint32_t *render(float dt) {
+Olivec_Canvas render(float dt) {
   Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT, WIDTH);
 
   olivec_fill(oc, BACKGROUND_COLOR);
@@ -67,7 +67,7 @@ uint32_t *render(float dt) {
     olivec_circle(oc, circle_x, circle_y, CIRCLE_RADIUS, CIRCLE_COLOR);
   }
 
-  return pixels;
+  return oc;
 }
 
 #include "vc.c"

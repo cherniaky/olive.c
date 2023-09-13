@@ -22,7 +22,7 @@ float cosf(float x);
 static uint32_t pixels[WIDTH * HEIGHT];
 static float angle = 0;
 
-uint32_t *render(float dt) {
+Olivec_Canvas render(float dt) {
   angle += 0.25 * PI * dt;
 
   Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT, WIDTH);
@@ -69,7 +69,7 @@ uint32_t *render(float dt) {
               HEIGHT - ABOBA_PADDING - default_font.height * size, default_font,
               size, 0xFFFFFFFF);
 
-  return pixels;
+  return oc;
 }
 
 #include "vc.c"
