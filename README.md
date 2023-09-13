@@ -61,15 +61,3 @@ If the expected behaviour of the library has changed in the way that breaks curr
 $ ./bin/test record
 ```
 
-## Regenerate the Gallery Above
-
-```console
-$ ./bin/gallery
-```
-
-## WebAssembly Triangle Example
-
-```console
-$ python3 -m http.server 6969
-# open http://localhost:6969/
-```
