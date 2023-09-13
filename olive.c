@@ -128,6 +128,8 @@ OLIVECDEF void olivec_line(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
                            uint32_t color);
 OLIVECDEF void olivec_triangle(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
                                int x3, int y3, uint32_t color);
+OLIVECDEF void olivec_triangle3(Olivec_Canvas oc, int x1, int y1, int x2, int y2, int x3, int y3,
+                                uint32_t c1, uint32_t c2, uint32_t c3);
 OLIVECDEF void olivec_text(Olivec_Canvas oc, const char *text, int x, int y,
                            Olivec_Font font, size_t glyph_size, uint32_t color);
 OLIVECDEF bool olivec_normalize_rect(int x, int y, int w, int h,
