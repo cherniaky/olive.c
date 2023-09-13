@@ -190,8 +190,8 @@ static Olivec_Font default_font = {
 
 typedef struct {
   uint32_t *pixels;
-  size_t height;
   size_t width;
+  size_t height;
   size_t stride;
 } Olivec_Canvas;
 

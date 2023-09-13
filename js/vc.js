@@ -20,8 +20,8 @@ const libm = {
 
 let iota = 0;
 const CANVAS_PIXELS = iota++;
-const CANVAS_HEIGHT = iota++;
 const CANVAS_WIDTH = iota++;
+const CANVAS_HEIGHT = iota++;
 const CANVAS_STRIDE = iota++;
 const CANVAS_SIZE = iota++;
 
