@@ -396,6 +396,7 @@ int main(int argc, char **argv) {
                            test_cases[i].diff_file_path) == REPLAY_ERRORED)
         return_defer(1);
     }
+    arena_free(&default_arena);
   }
 
 defer:
