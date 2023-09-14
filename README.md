@@ -68,7 +68,7 @@ $ ./build/test record
 
 ## Demos
 
-The source code for demos is located at [demos](./demos/). Each demo is compiled for 2 different "platforms" that is 3 different ways to display the generated images:
+The source code for demos is located at [demos](./demos/). Each demo is compiled for 2 different "platforms" that is 2 different ways to display the generated images:
 
 1. Terminal -- converts the images into ASCII art and prints them into the terminal.
 2. WASM -- displays the images in [HTML5 canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
