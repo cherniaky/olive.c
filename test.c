@@ -342,7 +342,10 @@ Olivec_Canvas test_lines_circle(void) {
 
   size_t n = 20;
   float angle = 2 * M_PI / n;
-  float length = 200;
+  float length = width;
+  if (lenght > height)
+    length = height;
+  length /= 3;
   float x1 = width / 2;
   float y1 = height / 2;
   for (size_t i = 0; i < n; ++i) {
