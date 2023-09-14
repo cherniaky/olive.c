@@ -305,8 +305,8 @@ Olivec_Canvas test_checker_example(void) {
 }
 
 Olivec_Canvas test_circle_example(void) {
-  int width = 800;
-  int height = 600;
+  int width = 800 / 2;
+  int height = 600 / 2;
   int cols = (8 * 2);
   int rows = (6 * 2);
   int cell_width = (width / cols);
@@ -335,8 +335,8 @@ Olivec_Canvas test_circle_example(void) {
 }
 
 Olivec_Canvas test_lines_circle(void) {
-  int width = 800;
-  int height = 600;
+  int width = 800 / 2;
+  int height = 600 / 2;
   Olivec_Canvas oc = canvas_alloc(width, height);
   olivec_fill(oc, BACKGROUND_COLOR);
 
