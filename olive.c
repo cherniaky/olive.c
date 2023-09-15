@@ -590,7 +590,7 @@ OLIVECDEF void olivec_line(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
   }
 }
 
-uint32_t mix_colors3(uint32_t c1, uint32_t c2, uint32_t c3, int t1, int t2,
+OLIVECDEF uint32_t mix_colors3(uint32_t c1, uint32_t c2, uint32_t c3, int t1, int t2,
                      int t3, int den) {
   int64_t r1 = OLIVEC_RED(c1);
   int64_t g1 = OLIVEC_GREEN(c1);
@@ -618,7 +618,7 @@ uint32_t mix_colors3(uint32_t c1, uint32_t c2, uint32_t c3, int t1, int t2,
   return 0;
 }
 
-void barycentric(int x1, int y1, int x2, int y2, int x3, int y3, int xp, int yp,
+OLIVECDEF void barycentric(int x1, int y1, int x2, int y2, int x3, int y3, int xp, int yp,
                  int *u1, int *u2, int *det) {
   *det = ((x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3));
   *u1 = ((y2 - y3) * (xp - x3) + (x3 - x2) * (yp - y3));
@@ -772,7 +772,7 @@ OLIVECDEF void olivec_text(Olivec_Canvas oc, const char *text, int tx, int ty,
   }
 }
 
-void olivec_copy(Olivec_Canvas src, Olivec_Canvas dst, int x, int y, int w,
+OLIVECDEF void olivec_copy(Olivec_Canvas src, Olivec_Canvas dst, int x, int y, int w,
                  int h) {
   int x1, x2, y1, y2;
   if (olivec_normalize_rect(x, y, w, h, dst.width, dst.height, &x1, &x2, &y1,
