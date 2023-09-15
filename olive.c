@@ -380,6 +380,12 @@ OLIVECDEF Olivec_Canvas olivec_canvas(uint32_t *pixels, size_t width,
 OLIVECDEF bool olivec_normalize_rect(int x, int y, int w, int h,
                                      size_t pixels_width, size_t pixels_height,
                                      int *x1, int *x2, int *y1, int *y2) {
+
+  if (w == 0)
+    return false;
+  if (h == 0)
+    return false;
+
   *x1 = x;
   *y1 = y;
 
