@@ -19,7 +19,7 @@ mkdir -p ./build/
 # Build assets
 clang $COMMON_CFLAGS -o ./build/png2c png2c.c -lm 
 mkdir -p ./build/assets/
-./build/png2c ./assets/nikita.png > ./build/assets/nikita.c
+./build/png2c -n nikita -o ./build/assets/nikita.c ./assets/nikita.png
 
 # Build tests
 clang $COMMON_CFLAGS -fsanitize=memory -o ./build/test test.c -lm 
