@@ -357,8 +357,8 @@ OLIVECDEF void olivec_triangle3(Olivec_Canvas oc, int x1, int y1, int x2,
                                 uint32_t c2, uint32_t c3);
 OLIVECDEF void olivec_text(Olivec_Canvas oc, const char *text, int x, int y,
                            Olivec_Font font, size_t glyph_size, uint32_t color);
-OLIVECDEF void olivec_copy(Olivec_Canvas src, Olivec_Canvas dst, int x, int y,
-                           int w, int h);
+OLIVECDEF void olivec_copy(Olivec_Canvas dst, int x, int y,
+                           int w, int h, Olivec_Canvas src);
 
 typedef struct {
   // Safe ranges to iterate over.
@@ -792,8 +792,8 @@ OLIVECDEF void olivec_text(Olivec_Canvas oc, const char *text, int tx, int ty,
   }
 }
 
-OLIVECDEF void olivec_copy(Olivec_Canvas src, Olivec_Canvas dst, int x, int y,
-                           int w, int h) {
+OLIVECDEF void olivec_copy(Olivec_Canvas dst, int x, int y, int w, int h,
+                           Olivec_Canvas src) {
   if (src.width == 0)
     return;
   if (src.height == 0)

@@ -26,8 +26,8 @@ Olivec_Canvas render(float dt) {
   int w = 400 - t * factor;
   int h = 400 + t * factor;
 
-  olivec_copy(olivec_canvas(png, png_width, png_height, png_width), dst_canvas,
-              WIDTH / 2 - w / 2, HEIGHT - h, w, h);
+  olivec_copy(dst_canvas, WIDTH / 2 - w / 2, HEIGHT - h, w, h,
+              olivec_canvas(png, png_width, png_height, png_width));
 
   return dst_canvas;
 }
