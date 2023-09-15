@@ -52,7 +52,9 @@ Even though the library does not require any special building, the tests and dem
 $ ./build.sh
 ```
 
-## Run the tests: 
+## Tests
+
+Run the tests: 
 
 ```console
 $ ./build/test run
