@@ -1,7 +1,7 @@
 #define SCALE_DOWN_FACTOR 10
 #include "vc.c"
 
-#include "./assets/nikita.c"
+#include "./assets/Sadge.c"
 
 #define WIDTH 960
 #define HEIGHT 720
@@ -11,7 +11,7 @@ float sinf(float);
 uint32_t dst[WIDTH * HEIGHT];
 float global_time = 0;
 
-#define SRC_SCALE 3
+#define SRC_SCALE 2
 
 Olivec_Canvas render(float dt) {
   global_time += dt;
@@ -23,11 +23,12 @@ Olivec_Canvas render(float dt) {
   olivec_fill(dst_canvas, 0xFF181818);
 
   int factor = 100;
-  int w = 400 - t * factor;
-  int h = 400 + t * factor;
+  int w = Sadge_width * SRC_SCALE - t * factor;
+  int h = Sadge_height * SRC_SCALE + t * factor;
 
-  olivec_copy(dst_canvas, WIDTH / 2 - w / 2, HEIGHT - h, w, h,
-              olivec_canvas(nikita_pixels, nikita_width, nikita_height, nikita_width));
+  olivec_copy(
+      dst_canvas, WIDTH / 2 - w / 2, HEIGHT - h, w, h,
+      olivec_canvas(Sadge_pixels, Sadge_width, Sadge_height, Sadge_width));
 
   return dst_canvas;
 }
