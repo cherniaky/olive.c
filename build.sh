@@ -16,13 +16,13 @@ build_vc_demo() {
 
 mkdir -p ./build/
 
-# Build tests
-clang $COMMON_CFLAGS -fsanitize=memory -o ./build/test test.c -lm 
-
 # Build assets
 clang $COMMON_CFLAGS -o ./build/png2c png2c.c -lm 
 mkdir -p ./build/assets/
 ./build/png2c ./assets/nikita.png > ./build/assets/nikita.c
+
+# Build tests
+clang $COMMON_CFLAGS -fsanitize=memory -o ./build/test test.c -lm 
 
 # Build VC demos
 build_vc_demo triangle &

@@ -1,9 +1,12 @@
 #include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "./assets/nikita.c"
 
 #define return_defer(value)                                                    \
   do {                                                                         \
@@ -140,8 +143,9 @@ Replay_Result run_test_case(const char *program_path, const Test_Case *tc) {
     fprintf(stderr, "%s: ERROR: could not read %s: %s\n", tc->id,
             expected_file_path, stbi_failure_reason());
     if (errno == ENOENT) {
-      fprintf(stderr, "%s: HINT: Consider running `$ %s update` to create it\n",
-              tc->id, program_path);
+      fprintf(stderr,
+              "%s: HINT: Consider running `$ %s update %s` to create it\n",
+              tc->id, program_path, tc->id);
     }
     return (REPLAY_ERRORED);
   }
@@ -454,27 +458,37 @@ Olivec_Canvas test_frame(void) {
   return oc;
 }
 
-Olivec_Canvas test_blending_of_copy(void)
-{
-    size_t width = 128;
-    size_t height = 128;
-    Olivec_Canvas dst = canvas_alloc(width, height);
-    olivec_fill(dst, RED_COLOR);
-    Olivec_Canvas src = canvas_alloc(width, height);
+Olivec_Canvas test_blending_of_copy(void) {
+  size_t width = 128;
+  size_t height = 128;
+  Olivec_Canvas dst = canvas_alloc(width, height);
+  olivec_fill(dst, RED_COLOR);
+  Olivec_Canvas src = canvas_alloc(width, height);
 
-    for (size_t y = 0; y < src.height; ++y) {
-        for (size_t x = 0; x < src.width; ++x) {
-            if ((x + y)%2 == 0) {
-                OLIVEC_PIXEL(src, x, y) = 0;
-            } else {
-                OLIVEC_PIXEL(src, x, y) = GREEN_COLOR;
-            }
-        }
+  for (size_t y = 0; y < src.height; ++y) {
+    for (size_t x = 0; x < src.width; ++x) {
+      if ((x + y) % 2 == 0) {
+        OLIVEC_PIXEL(src, x, y) = 0;
+      } else {
+        OLIVEC_PIXEL(src, x, y) = GREEN_COLOR;
+      }
     }
+  }
 
-    olivec_copy(src, dst);
+  olivec_copy(src, dst, 0, 0, width, height);
 
-    return dst;
+  return dst;
+}
+
+Olivec_Canvas test_copy_out_of_bounds_cut(void) {
+  size_t width = 128;
+  size_t height = 128;
+  Olivec_Canvas dst = canvas_alloc(width, height);
+  olivec_fill(dst, 0xFF1818FF);
+  olivec_copy(olivec_canvas(png, png_width, png_height, png_width), dst,
+              width / 2, height / 2, width, height);
+
+  return dst;
 }
 
 Test_Case test_cases[] = {
@@ -491,6 +505,7 @@ Test_Case test_cases[] = {
     DEFINE_TEST_CASE(line_edge_cases),
     DEFINE_TEST_CASE(frame),
     DEFINE_TEST_CASE(blending_of_copy),
+    DEFINE_TEST_CASE(copy_out_of_bounds_cut),
 };
 #define TEST_CASES_COUNT (sizeof(test_cases) / sizeof(test_cases[0]))
 
