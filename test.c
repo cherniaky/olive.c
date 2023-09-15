@@ -132,6 +132,10 @@ static inline size_t max_size(size_t a, size_t b) {
 }
 
 Replay_Result run_test_case(const char *program_path, const Test_Case *tc) {
+
+  printf("%s:", tc->id);
+  fflush(stdout);
+
   const char *expected_file_path = tc->expected_file_path;
   const char *actual_file_path = tc->actual_file_path;
   const char *diff_file_path = tc->diff_file_path;
@@ -140,12 +144,12 @@ Replay_Result run_test_case(const char *program_path, const Test_Case *tc) {
 
   Olivec_Canvas expected_canvas;
   if (!canvas_stbi_load(expected_file_path, &expected_canvas)) {
-    fprintf(stderr, "%s: ERROR: could not read %s: %s\n", tc->id,
-            expected_file_path, stbi_failure_reason());
+    fprintf(stderr, "\n  ERROR: could not read %s: %s\n", expected_file_path,
+            stbi_failure_reason());
     if (errno == ENOENT) {
       fprintf(stderr,
-              "%s: HINT: Consider running `$ %s update %s` to create it\n",
-              tc->id, program_path, tc->id);
+              "  HINT: Consider running `$ %s update %s` to create it\n",
+              program_path, tc->id);
     }
     return (REPLAY_ERRORED);
   }
@@ -178,25 +182,25 @@ Replay_Result run_test_case(const char *program_path, const Test_Case *tc) {
   }
 
   if (failed) {
+    fprintf(stderr, "\n");
 
     if (!canvas_stbi_save(actual_canvas, actual_file_path)) {
       fprintf(stderr,
-              "ERROR: could not write image file with actual pixels %s: %s\n",
+              "  ERROR: could not write image file with actual pixels %s: %s\n",
               actual_file_path, strerror(errno));
       return (REPLAY_ERRORED);
     }
 
     if (!canvas_stbi_save(diff_canvas, diff_file_path)) {
-      fprintf(stderr, "ERROR: could not write diff image file %s: %s\n",
+      fprintf(stderr, "  ERROR: could not write diff image file %s: %s\n",
               diff_file_path, strerror(errno));
       return (REPLAY_ERRORED);
     }
 
-    fprintf(stderr, "%s: TEST FAILURE: unexpected pixels in generated image\n",
-            tc->id);
-    fprintf(stderr, "%s:   Expected: %s\n", tc->id, expected_file_path);
-    fprintf(stderr, "%s:   Actual:   %s\n", tc->id, actual_file_path);
-    fprintf(stderr, "%s:   Diff:     %s\n", tc->id, diff_file_path);
+    fprintf(stderr, "  TEST FAILURE: unexpected pixels in generated image\n");
+    fprintf(stderr, "    Expected: %s\n", expected_file_path);
+    fprintf(stderr, "    Actual:   %s\n", actual_file_path);
+    fprintf(stderr, "    Diff:     %s\n", diff_file_path);
     fprintf(stderr,
             "%s: HINT: If this behaviour is intentional confirm that by "
             "updating the image with `$ %s update`\n",
@@ -204,7 +208,7 @@ Replay_Result run_test_case(const char *program_path, const Test_Case *tc) {
     return (REPLAY_FAILED);
   }
 
-  printf("%s: OK\n", tc->id);
+  printf(" OK\n");
 
   return (REPLAY_PASSED);
 }
@@ -491,18 +495,17 @@ Olivec_Canvas test_copy_out_of_bounds_cut(void) {
   return dst;
 }
 
-Olivec_Canvas test_copy_flip(void)
-{
-    size_t width = 128;
-    size_t height = 128;
-    Olivec_Canvas dst = canvas_alloc(width, height);
-    Olivec_Canvas src = olivec_canvas(png, png_width, png_height, png_width);
-    olivec_fill(dst, RED_COLOR);
-    olivec_copy(src, dst, 0, 0, width/2, height/2);
-    olivec_copy(src, dst, width - 1, 0, -width/2, height/2);
-    olivec_copy(src, dst, 0, height - 1, width/2, -height/2);
-    olivec_copy(src, dst, width - 1, height - 1, -width/2, -height/2);
-    return dst;
+Olivec_Canvas test_copy_flip(void) {
+  size_t width = 128;
+  size_t height = 128;
+  Olivec_Canvas dst = canvas_alloc(width, height);
+  Olivec_Canvas src = olivec_canvas(png, png_width, png_height, png_width);
+  olivec_fill(dst, RED_COLOR);
+  olivec_copy(src, dst, 0, 0, width / 2, height / 2);
+  olivec_copy(src, dst, width - 1, 0, -width / 2, height / 2);
+  olivec_copy(src, dst, 0, height - 1, width / 2, -height / 2);
+  olivec_copy(src, dst, width - 1, height - 1, -width / 2, -height / 2);
+  return dst;
 }
 
 Test_Case test_cases[] = {
