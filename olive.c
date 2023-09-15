@@ -780,6 +780,16 @@ OLIVECDEF void olivec_text(Olivec_Canvas oc, const char *text, int tx, int ty,
 
 OLIVECDEF void olivec_copy(Olivec_Canvas src, Olivec_Canvas dst, int x, int y,
                            int w, int h) {
+  if (src.width == 0)
+    return;
+  if (src.height == 0)
+    return;
+
+  if (w == 0)
+    return;
+  if (h == 0)
+    return;
+
   int ox1 = x;
   int oy1 = y;
 
