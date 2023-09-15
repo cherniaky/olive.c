@@ -479,7 +479,7 @@ Olivec_Canvas test_blending_of_copy(void) {
     }
   }
 
-  olivec_copy(dst, 0, 0, width, height, src);
+  olivec_sprite_blend(dst, 0, 0, width, height, src);
 
   return dst;
 }
@@ -489,7 +489,7 @@ Olivec_Canvas test_copy_out_of_bounds_cut(void) {
   size_t height = 128;
   Olivec_Canvas dst = canvas_alloc(width, height);
   olivec_fill(dst, RED_COLOR);
-  olivec_copy(
+  olivec_sprite_blend(
       dst, width / 2, height / 2, width, height,
       olivec_canvas(nikita_pixels, nikita_width, nikita_height, nikita_width));
 
@@ -503,10 +503,10 @@ Olivec_Canvas test_copy_flip(void) {
   Olivec_Canvas src =
       olivec_canvas(nikita_pixels, nikita_width, nikita_height, nikita_width);
   olivec_fill(dst, RED_COLOR);
-  olivec_copy(dst, -width / 2, -height / 2, width, height, src);
-  olivec_copy(dst, width / 2, -height / 2, width, height, src);
-  olivec_copy(dst, -width / 2, height / 2, width, height, src);
-  olivec_copy(dst, width / 2, height / 2, width, height, src);
+  olivec_sprite_blend(dst, -width / 2, -height / 2, width, height, src);
+  olivec_sprite_blend(dst, width / 2, -height / 2, width, height, src);
+  olivec_sprite_blend(dst, -width / 2, height / 2, width, height, src);
+  olivec_sprite_blend(dst, width / 2, height / 2, width, height, src);
   return dst;
 }
 
