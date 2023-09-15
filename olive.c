@@ -360,8 +360,8 @@ OLIVECDEF void olivec_text(Olivec_Canvas oc, const char *text, int x, int y,
 OLIVECDEF bool olivec_normalize_rect(int x, int y, int w, int h,
                                      size_t pixels_width, size_t pixels_height,
                                      int *x1, int *x2, int *y1, int *y2);
-void olivec_copy(Olivec_Canvas src, Olivec_Canvas dst, int x, int y, int w,
-                 int h);
+OLIVECDEF void olivec_copy(Olivec_Canvas src, Olivec_Canvas dst, int x, int y,
+                           int w, int h);
 
 #endif // OLIVE_C_
 
