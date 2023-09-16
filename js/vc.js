@@ -6,6 +6,7 @@ function make_environment(...envs) {
                     return env[prop];
                 }
             }
+
             return (...args) => { console.error("NOT IMPLEMENTED: " + prop, args) }
         }
     });
