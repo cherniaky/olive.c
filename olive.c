@@ -114,6 +114,7 @@ static char default_font_glyphs[128][DEFAULT_FONT_HEIGHT][DEFAULT_FONT_WIDTH] =
                 {0, 1, 1, 0, 0},
                 {0, 1, 0, 1, 0},
             },
+
         ['l'] =
             {
                 {0, 1, 1, 0, 0},
