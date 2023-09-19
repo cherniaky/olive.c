@@ -4,14 +4,22 @@ set -xe
 
 COMMON_CFLAGS="-Wall -Wextra -ggdb -I. -I./build/ -I./thirdparty/"
 
-build_vc_demo() {
+build_wasm_demo() {
     NAME=$1
-
     clang $COMMON_CFLAGS -O2 -fno-builtin --target=wasm32 --no-standard-libraries -Wl,--no-entry -Wl,--export=render -Wl,--export=__heap_base -Wl,--allow-undefined -o ./build/demos/$NAME.wasm -DPLATFORM=WASM_PLATFORM ./demos/$NAME.c
     mkdir -p ./wasm/
     cp ./build/demos/$NAME.wasm ./wasm/
+}
 
+build_term_demo() {
+    NAME=$1
     clang $COMMON_CFLAGS -O2 -o ./build/demos/$NAME.term -DPLATFORM=TERM_PLATFORM ./demos/$NAME.c -lm
+}
+
+build_vc_demo() {
+    NAME=$1
+    build_wasm_demo $NAME
+    build_term_demo $NAME
 }
 
 build_all_vc_demos() {
