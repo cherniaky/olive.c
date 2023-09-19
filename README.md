@@ -31,7 +31,7 @@ uint32_t pixels[WIDTH*HEIGHT];
 
 int main(void)
 {
-    Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT);
+    Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT, WIDTH);
     olivec_fill(oc, 0xFFFFFFFF);
     olivec_circle(oc, WIDTH/2, HEIGHT/2, 180, 0xFF2D00BC);
 
