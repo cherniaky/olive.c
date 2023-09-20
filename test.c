@@ -8,6 +8,8 @@
 
 #include "./assets/nikita.c"
 
+#define PI 3.14159265359
+
 #define return_defer(value)                                                    \
   do {                                                                         \
     result = (value);                                                          \
@@ -353,7 +355,7 @@ Olivec_Canvas test_lines_circle(void) {
   olivec_fill(oc, BACKGROUND_COLOR);
 
   size_t n = 20;
-  float angle = 2 * M_PI / n;
+  float angle = 2 * PI / n;
   float length = width;
   if (length > height)
     length = height;
