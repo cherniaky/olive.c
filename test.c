@@ -512,21 +512,14 @@ Olivec_Canvas test_copy_flip(void) {
   return dst;
 }
 
-Olivec_Canvas test_triangle_order_flip(void)
-{
-    size_t w = 256;
-    size_t h = 256;
-    Olivec_Canvas dst = canvas_alloc(w, h);
-    olivec_fill(dst, 0xFF181818);
-    olivec_triangle3c(
-        dst,
-        w/4, h/4,
-        0, h,
-        w, 0,
-        0xFF00FF00,
-        0xFFFF0000,
-        0xFF0000FF);
-    return dst;
+Olivec_Canvas test_triangle_order_flip(void) {
+  size_t w = 256;
+  size_t h = 256;
+  Olivec_Canvas dst = canvas_alloc(w, h);
+  olivec_fill(dst, 0xFF181818);
+  olivec_triangle3c(dst, w / 4, h / 4, 0, h, w, 0, 0xFF00FF00, 0xFFFF0000,
+                    0xFF0000FF);
+  return dst;
 }
 
 Test_Case test_cases[] = {
