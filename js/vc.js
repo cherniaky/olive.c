@@ -39,11 +39,20 @@ function readCanvasFromMemory(memory_buffer, canvas_ptr) {
 
 
 async function startDemo(elementId, wasmPath) {
-    const app = document.getElementById(elementId);
+    const app = document.getElementById(`app-${elementId}`);
     if (app === null) {
-        console.error(`Could not find element ${elementId}. Skipping demo ${wasmPath}...`);
+        console.error(`Could not find element app-${elementId}. Skipping demo ${wasmPath}...`);
         return;
     }
+    const sec = document.getElementById(`sec-${elementId}`);
+    if (sec === null) {
+        console.error(`Could not find element sec-${elementId}. Skipping demo ${wasmPath}...`);
+        return;
+    }
+
+    let paused = true;
+    sec.addEventListener("mouseenter", () => paused = false);
+    sec.addEventListener("mouseleave", () => paused = true);
 
     const ctx = app.getContext("2d");
     const w = await WebAssembly.instantiateStreaming(fetch(wasmPath), {
@@ -52,14 +61,7 @@ async function startDemo(elementId, wasmPath) {
 
     const heap_base = w.instance.exports.__heap_base.value;
 
-    let prev = null;
-    function first(timestamp) {
-        prev = timestamp;
-        window.requestAnimationFrame(loop);
-    }
-    function loop(timestamp) {
-        const dt = timestamp - prev;
-        prev = timestamp;
+    function render(dt) {
 
         const buffer = w.instance.exports.memory.buffer;
         w.instance.exports.vc_render(heap_base, dt * 0.001);
@@ -72,6 +74,18 @@ async function startDemo(elementId, wasmPath) {
         app.width = canvas.width;
         app.height = canvas.height;
         ctx.putImageData(image, 0, 0);
+    }
+
+    let prev = null;
+    function first(timestamp) {
+        prev = timestamp;
+        render(0);
+        window.requestAnimationFrame(loop);
+    }
+    function loop(timestamp) {
+        const dt = timestamp - prev;
+        prev = timestamp;
+        if (!paused) render(dt);
 
         window.requestAnimationFrame(loop);
     }
