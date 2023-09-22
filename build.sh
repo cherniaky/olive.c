@@ -34,22 +34,27 @@ build_all_vc_demos() {
     wait
 }
 
+build_tools() {
+    mkdir -p ./build/tools/
+    clang $COMMON_CFLAGS -o ./build/tools/png2c -Ithirdparty ./tools/png2c.c -lm &
+    clang $COMMON_CFLAGS -o ./build/tools/obj2c -Ithirdparty ./tools/obj2c.c -lm &
+    clang $COMMON_CFLAGS -O2 -o ./build/tools/viewobj ./tools/viewobj.c &
+    wait
+}
+
 build_assets() {
     mkdir -p ./build/assets/
-
-    clang $COMMON_CFLAGS -o ./build/png2c png2c.c -lm
-    ./build/png2c -n nikita -o ./build/assets/nikita.c ./assets/nikita.png
-    ./build/png2c -n Sadge -o ./build/assets/Sadge.c ./assets/Sadge.png
-
-    clang $COMMON_CFLAGS -o ./build/obj2c -Ithirdparty obj2c.c -lm
-    ./build/obj2c ./assets/cupLowPoly.obj ./build/assets/cupLowPoly.c
+    ./build/tools/png2c -n nikita -o ./build/assets/nikita.c ./assets/nikita.png &
+    ./build/tools/png2c -n Sadge -o ./build/assets/Sadge.c ./assets/Sadge.png &
+    ./build/tools/obj2c ./assets/tsodinCupLowPoly.obj ./build/assets/tsodinCupLowPoly.c &
+    wait
 }
 
 build_tests() {
-    mkdir -p ./build/
-    clang $COMMON_CFLAGS -fsanitize=memory -o ./build/test test.c -lm
+    clang $COMMON_CFLAGS -fsanitize=memory -o ./build/test -Ithirdparty ./test.c -lm &
 }
 
+build_tools
 build_assets
 build_tests
 build_all_vc_demos
