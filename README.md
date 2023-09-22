@@ -82,7 +82,7 @@ The source code for demos is located at [demos](./demos/). Each demo is compiled
 To run the Terminal version of a demo do
 
 ```console
-$ ./build/<demo>.term
+$ ./build/demos/<demo>.term
 ```
 
 To run the WASM versions of the demos from [https://cherniakyura.github.io/olive.c/](https://cherniakyura.github.io/olive.c/) locally do
