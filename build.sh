@@ -23,30 +23,30 @@ build_vc_demo() {
 }
 
 build_all_vc_demos() {
-    mkdir -p ./build/demos
-    build_vc_demo triangle 
-    build_vc_demo 3d 
-    build_vc_demo squish 
-    build_vc_demo triangle3d 
-    build_vc_demo triangleTex 
-    build_vc_demo triangle3dTex 
-    build_vc_demo cup3d 
+    mkdir -p ./build/demos &
+    build_vc_demo triangle &
+    build_vc_demo 3d &
+    build_vc_demo squish &  
+    build_vc_demo triangle3d & 
+    build_vc_demo triangleTex &
+    build_vc_demo triangle3dTex & 
+    build_vc_demo cup3d &
     wait
 }
 
 build_tools() {
-    mkdir -p ./build/tools/
-    clang $COMMON_CFLAGS -o ./build/tools/png2c -Ithirdparty ./tools/png2c.c -lm 
-    clang $COMMON_CFLAGS -o ./build/tools/obj2c -Ithirdparty ./tools/obj2c.c -lm 
-    clang $COMMON_CFLAGS -O2 -o ./build/tools/viewobj ./tools/viewobj.c 
+    mkdir -p ./build/tools/ &
+    clang $COMMON_CFLAGS -o ./build/tools/png2c -Ithirdparty ./tools/png2c.c -lm &
+    clang $COMMON_CFLAGS -o ./build/tools/obj2c -Ithirdparty ./tools/obj2c.c -lm &
+    clang $COMMON_CFLAGS -O2 -o ./build/tools/viewobj ./tools/viewobj.c &
     wait
 }
 
 build_assets() {
     mkdir -p ./build/assets/
-    ./build/tools/png2c -n nikita -o ./build/assets/nikita.c ./assets/nikita.png 
-    ./build/tools/png2c -n Sadge -o ./build/assets/Sadge.c ./assets/Sadge.png 
-    ./build/tools/obj2c ./assets/cupLowPoly.obj ./build/assets/cupLowPoly.c 
+    ./build/tools/png2c -n nikita -o ./build/assets/nikita.c ./assets/nikita.png &
+    ./build/tools/png2c -n Sadge -o ./build/assets/Sadge.c ./assets/Sadge.png &
+    ./build/tools/obj2c ./assets/cupLowPoly.obj ./build/assets/cupLowPoly.c &
     wait
 }
 
