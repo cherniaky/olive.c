@@ -55,8 +55,8 @@ Olivec_Canvas render(float dt) {
   Olivec_Canvas zb1 = olivec_canvas((uint32_t *)zbuffer1, WIDTH, HEIGHT, WIDTH);
   olivec_fill(zb1, 0);
 
-  Olivec_Canvas nikita = olivec_canvas(nikita_pixels, nikita_width,
-                                          nikita_height, nikita_width);
+  Olivec_Canvas nikita =
+      olivec_canvas(nikita_pixels, nikita_width, nikita_height, nikita_width);
 
   float z = 1.5;
   float t = 0.75;
@@ -71,10 +71,9 @@ Olivec_Canvas render(float dt) {
     Vector2 p2 = project_2d_scr(project_3d_2d(v2));
     Vector2 p3 = project_2d_scr(project_3d_2d(v3));
 
-    olivec_triangle3uv(
-        oc1, p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, olivec_uv(0 / v1.z, 1 / v1.z),
-        olivec_uv(0.5 / v2.z, 0 / v2.z), olivec_uv(1 / v3.z, 0 / v3.z),
-        1 / v1.z, 1 / v2.z, 1 / v3.z, nikita);
+    olivec_triangle3uv(oc1, p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, 0 / v1.z,
+                       1 / v1.z, 0.5 / v2.z, 0 / v2.z, 1 / v3.z, 0 / v3.z,
+                       1 / v1.z, 1 / v2.z, 1 / v3.z, nikita);
     olivec_triangle3z(zb1, p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, 1.0f / v1.z,
                       1.0f / v2.z, 1.0f / v3.z);
   }
@@ -122,4 +121,3 @@ Olivec_Canvas render(float dt) {
 
   return oc1;
 }
-
