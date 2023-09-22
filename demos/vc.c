@@ -71,8 +71,7 @@ static uint32_t vc_term_compress_pixels_chunk(Olivec_Canvas oc) {
 #define VC_TERM_SCALE_DOWN_FACTOR 20
 #endif // VC_TERM_SCALE_DOWN_FACTOR
 
-static void vc_term_resize_char_canvas(size_t new_width,
-                                               size_t new_height) {
+static void vc_term_resize_char_canvas(size_t new_width, size_t new_height) {
   assert(new_width % VC_TERM_SCALE_DOWN_FACTOR == 0 &&
          "Width must be divisible by VC_TERM_SCALE_DOWN_FACTOR");
   assert(new_height % VC_TERM_SCALE_DOWN_FACTOR == 0 &&
