@@ -1,4 +1,3 @@
-#define SCALE_DOWN_FACTOR 10
 #include "vc.c"
 
 #include "./assets/Sadge.c"
@@ -8,12 +7,12 @@
 
 float sinf(float);
 
-uint32_t dst[WIDTH * HEIGHT];
-float global_time = 0;
+static uint32_t dst[WIDTH * HEIGHT];
+static float global_time = 0;
 
 #define SRC_SCALE 2
 
-Olivec_Canvas render(float dt) {
+Olivec_Canvas vc_render(float dt) {
   global_time += dt;
 
   float t = sinf(10 * global_time);

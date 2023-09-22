@@ -1,4 +1,3 @@
-#define SCALE_DOWN_FACTOR 20
 #include "vc.c"
 #include "assets/Sadge.c"
 
@@ -16,7 +15,7 @@ float cosf(float x);
 
 #define PI 3.14159265359
 
-Olivec_Canvas render(float dt) {
+Olivec_Canvas vc_render(float dt) {
   Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT, WIDTH);
   Olivec_Canvas Sadge =
       olivec_canvas(Sadge_pixels, Sadge_width, Sadge_height, Sadge_width);

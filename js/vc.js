@@ -62,7 +62,7 @@ async function startDemo(elementId, wasmPath) {
         prev = timestamp;
 
         const buffer = w.instance.exports.memory.buffer;
-        w.instance.exports.render(heap_base, dt * 0.001);
+        w.instance.exports.vc_render(heap_base, dt * 0.001);
         const canvas = readCanvasFromMemory(buffer, heap_base);
         if (canvas.width != canvas.stride) {
             console.error(`Canvas width (${canvas.width}) is not equal to its stride (${canvas.stride}). Unfortunately we can't easily support that in a browser because ImageData simply does not accept stride. Welcome to 2022.`);

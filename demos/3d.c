@@ -1,4 +1,3 @@
-#define SCALE_DOWN_FACTOR 10
 #include "vc.c"
 
 float sqrtf(float x);
@@ -21,7 +20,7 @@ float cosf(float x);
 static uint32_t pixels[WIDTH * HEIGHT];
 static float angle = 0;
 
-Olivec_Canvas render(float dt) {
+Olivec_Canvas vc_render(float dt) {
   angle += 0.25 * PI * dt;
 
   Olivec_Canvas oc = olivec_canvas(pixels, WIDTH, HEIGHT, WIDTH);
