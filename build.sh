@@ -30,14 +30,19 @@ build_all_vc_demos() {
     build_vc_demo triangle3d &
     build_vc_demo triangleTex &
     build_vc_demo triangle3dTex &
+    build_vc_demo cup3d &
     wait
 }
 
 build_assets() {
     mkdir -p ./build/assets/
+
     clang $COMMON_CFLAGS -o ./build/png2c png2c.c -lm
     ./build/png2c -n nikita -o ./build/assets/nikita.c ./assets/nikita.png
     ./build/png2c -n Sadge -o ./build/assets/Sadge.c ./assets/Sadge.png
+
+    clang $COMMON_CFLAGS -o ./build/obj2c -Ithirdparty obj2c.c -lm
+    ./build/obj2c ./assets/cupLowPoly.obj ./build/assets/cupLowPoly.c
 }
 
 build_tests() {
@@ -48,4 +53,3 @@ build_tests() {
 build_assets
 build_tests
 build_all_vc_demos
-clang $COMMON_CFLAGS -O2 -o viewobj viewobj.c
