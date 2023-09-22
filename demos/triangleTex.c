@@ -1,6 +1,6 @@
 #define SCALE_DOWN_FACTOR 20
-#include "assets/Sadge.c"
 #include "vc.c"
+#include "assets/Sadge.c"
 
 #define WIDTH 960
 #define HEIGHT 720

@@ -382,7 +382,6 @@ OLIVECDEF void olivec_sprite_blend(Olivec_Canvas oc, int x, int y, int w, int h,
                                    Olivec_Canvas sprite);
 OLIVECDEF void olivec_sprite_copy(Olivec_Canvas oc, int x, int y, int w, int h,
                                   Olivec_Canvas sprite);
-OLIVECDEF Uv olivec_uv(float u, float v);
 
 typedef struct {
   // Safe ranges to iterate over.
