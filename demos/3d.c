@@ -65,9 +65,8 @@ Olivec_Canvas render(float dt) {
 
   size_t size = 8;
   olivec_text(oc, "olivec", ABOBA_PADDING,
-              HEIGHT - ABOBA_PADDING - default_font.height * size, default_font,
-              size, 0xFFFFFFFF);
+              HEIGHT - ABOBA_PADDING - olivec_default_font.height * size,
+              olivec_default_font, size, 0xFFFFFFFF);
 
   return oc;
 }
-
