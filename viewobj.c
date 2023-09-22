@@ -288,6 +288,7 @@ int main(int argc, char **argv) {
                 if (v > 255)
                   v = 255;
                 olivec_blend_color(&OLIVEC_PIXEL(oc, x, y), (v << (3 * 8)));
+
               }
             }
           }
