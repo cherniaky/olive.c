@@ -31,6 +31,7 @@ build_all_vc_demos() {
     build_vc_demo triangleTex &
     build_vc_demo triangle3dTex & 
     build_vc_demo cup3d &
+    build_vc_demo teapot3d &
     wait
 }
 
@@ -46,7 +47,8 @@ build_assets() {
     mkdir -p ./build/assets/
     ./build/tools/png2c -n nikita -o ./build/assets/nikita.c ./assets/nikita.png &
     ./build/tools/png2c -n Sadge -o ./build/assets/Sadge.c ./assets/Sadge.png &
-    ./build/tools/obj2c ./assets/cupLowPoly.obj ./build/assets/cupLowPoly.c &
+    ./build/tools/obj2c -o ./build/assets/cupLowPoly.c ./assets/cupLowPoly.obj &
+    ./build/tools/obj2c -s 0.40 -o ./build/assets/utahTeapot.c ./assets/utahTeapot.obj &
     wait
 }
 
