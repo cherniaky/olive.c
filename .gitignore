@@ -1,2 +1,4 @@
 *.ppm
 build/
+nobuild
+nobuild.old
