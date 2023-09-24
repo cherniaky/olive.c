@@ -5,7 +5,13 @@ body {
     margin: auto;
     max-width: 960px;
     font-size: 16px;
+    padding: 10px;
 }
+
+canvas {
+    width: 100%;
+}
+
 p {
     padding-bottom: 20px;
     line-height: 1.5;
