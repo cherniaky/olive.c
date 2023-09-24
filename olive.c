@@ -383,6 +383,8 @@ OLIVECDEF void olivec_sprite_blend(Olivec_Canvas oc, int x, int y, int w, int h,
                                    Olivec_Canvas sprite);
 OLIVECDEF void olivec_sprite_copy(Olivec_Canvas oc, int x, int y, int w, int h,
                                   Olivec_Canvas sprite);
+OLIVECDEF void olivec_sprite_copy_bilinear(Olivec_Canvas oc, int x, int y,
+                                           int w, int h, Olivec_Canvas sprite);
 
 typedef struct {
   // Safe ranges to iterate over.
@@ -634,6 +636,30 @@ OLIVECDEF void olivec_line(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
   }
 }
 
+OLIVECDEF uint32_t mix_colors2(uint32_t c1, uint32_t c2, int u1, int det) {
+  int64_t r1 = OLIVEC_RED(c1);
+  int64_t g1 = OLIVEC_GREEN(c1);
+  int64_t b1 = OLIVEC_BLUE(c1);
+  int64_t a1 = OLIVEC_ALPHA(c1);
+
+  int64_t r2 = OLIVEC_RED(c2);
+  int64_t g2 = OLIVEC_GREEN(c2);
+  int64_t b2 = OLIVEC_BLUE(c2);
+  int64_t a2 = OLIVEC_ALPHA(c2);
+
+  if (det != 0) {
+    int u2 = det - u1;
+    int64_t r4 = (r1 * u2 + r2 * u1) / det;
+    int64_t g4 = (g1 * u2 + g2 * u1) / det;
+    int64_t b4 = (b1 * u2 + b2 * u1) / det;
+    int64_t a4 = (a1 * u2 + a2 * u1) / det;
+
+    return OLIVEC_RGBA(r4, g4, b4, a4);
+  }
+
+  return 0;
+}
+
 OLIVECDEF uint32_t mix_colors3(uint32_t c1, uint32_t c2, uint32_t c3, int u1,
                                int u2, int det) {
   int64_t r1 = OLIVEC_RED(c1);
@@ -882,6 +908,65 @@ OLIVECDEF void olivec_sprite_copy(Olivec_Canvas oc, int x, int y, int w, int h,
       size_t nx = (x - xa) * ((int)sprite.width) / w;
       size_t ny = (y - ya) * ((int)sprite.height) / h;
       OLIVEC_PIXEL(oc, x, y) = OLIVEC_PIXEL(sprite, nx, ny);
+    }
+  }
+}
+
+OLIVECDEF void olivec_sprite_copy_bilinear(Olivec_Canvas oc, int x, int y,
+                                           int w, int h, Olivec_Canvas sprite) {
+  if (w <= 0)
+    return;
+  if (h <= 0)
+    return;
+
+  Olivec_Normalized_Rect nr = {0};
+  if (!olivec_normalize_rect(x, y, w, h, oc.width, oc.height, &nr))
+    return;
+
+  for (int y = nr.y1; y <= nr.y2; ++y) {
+    for (int x = nr.x1; x <= nr.x2; ++x) {
+      size_t nx = (x - nr.ox1) * sprite.width;
+      size_t ny = (y - nr.oy1) * sprite.height;
+
+      int px = nx % w;
+      int py = ny % h;
+
+      int x1 = nx / w, x2 = nx / w;
+      int y1 = ny / h, y2 = ny / h;
+      if (px < w / 2) {
+        // left
+        px += w / 2;
+        x1 -= 1;
+        if (x1 < 0)
+          x1 = 0;
+      } else {
+        // right
+        px -= w / 2;
+        x2 += 1;
+        if ((size_t)x2 >= sprite.width)
+          x2 = sprite.width - 1;
+      }
+
+      if (py < h / 2) {
+        // top
+        py += h / 2;
+        y1 -= 1;
+        if (y1 < 0)
+          y1 = 0;
+      } else {
+        // bottom
+        py -= h / 2;
+        y2 += 1;
+        if ((size_t)y2 >= sprite.height)
+          y2 = sprite.height - 1;
+      }
+
+      OLIVEC_PIXEL(oc, x, y) =
+          mix_colors2(mix_colors2(OLIVEC_PIXEL(sprite, x1, y1),
+                                  OLIVEC_PIXEL(sprite, x2, y1), px, w),
+                      mix_colors2(OLIVEC_PIXEL(sprite, x1, y2),
+                                  OLIVEC_PIXEL(sprite, x2, y2), px, w),
+                      py, h);
     }
   }
 }

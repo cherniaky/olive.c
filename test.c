@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "./assets/nikita.c"
+#include "./assets/tsodinPog.c"
 
 #define PI 3.14159265359
 
@@ -523,6 +524,18 @@ Olivec_Canvas test_triangle_order_flip(void) {
   return dst;
 }
 
+Olivec_Canvas test_bilinear_interpolation(void) {
+  size_t factor = 2;
+  Olivec_Canvas src = olivec_canvas(tsodinPog_pixels, tsodinPog_width,
+                                    tsodinPog_height, tsodinPog_width);
+  Olivec_Canvas dst = canvas_alloc(src.width * factor * 2, src.height * factor);
+  olivec_fill(dst, RED_COLOR);
+  olivec_sprite_copy(dst, 0, 0, src.width * factor, src.height * factor, src);
+  olivec_sprite_copy_bilinear(dst, src.width * factor, 0, src.width * factor,
+                              src.height * factor, src);
+  return dst;
+}
+
 Test_Case test_cases[] = {
     DEFINE_TEST_CASE(fill_rect),
     DEFINE_TEST_CASE(fill_circle),
@@ -540,6 +553,7 @@ Test_Case test_cases[] = {
     DEFINE_TEST_CASE(copy_out_of_bounds_cut),
     DEFINE_TEST_CASE(copy_flip),
     DEFINE_TEST_CASE(triangle_order_flip),
+    DEFINE_TEST_CASE(bilinear_interpolation),
 };
 #define TEST_CASES_COUNT (sizeof(test_cases) / sizeof(test_cases[0]))
 
