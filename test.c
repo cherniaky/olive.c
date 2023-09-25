@@ -536,6 +536,15 @@ Olivec_Canvas test_bilinear_interpolation(void) {
   return dst;
 }
 
+Olivec_Canvas test_fill_ellipse(void) {
+  size_t factor = 3;
+  Olivec_Canvas dst = canvas_alloc(100 * factor, 50 * factor);
+  olivec_fill(dst, BACKGROUND_COLOR);
+  olivec_ellipse(dst, dst.width / 2, dst.height / 2, dst.width / 3,
+                 dst.height / 3, RED_COLOR);
+  return dst;
+}
+
 Test_Case test_cases[] = {
     DEFINE_TEST_CASE(fill_rect),
     DEFINE_TEST_CASE(fill_circle),
@@ -554,6 +563,7 @@ Test_Case test_cases[] = {
     DEFINE_TEST_CASE(copy_flip),
     DEFINE_TEST_CASE(triangle_order_flip),
     DEFINE_TEST_CASE(bilinear_interpolation),
+    DEFINE_TEST_CASE(fill_ellipse),
 };
 #define TEST_CASES_COUNT (sizeof(test_cases) / sizeof(test_cases[0]))
 

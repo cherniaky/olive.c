@@ -355,6 +355,8 @@ OLIVECDEF void olivec_frame(Olivec_Canvas oc, int x, int y, int w, int h,
                             size_t thiccness, uint32_t color);
 OLIVECDEF void olivec_circle(Olivec_Canvas oc, int cx, int cy, int r,
                              uint32_t color);
+OLIVECDEF void olivec_ellipse(Olivec_Canvas oc, int cx, int cy, int rx, int ry,
+                              uint32_t color);
 // TODO: lines with different thicness
 OLIVECDEF void olivec_line(Olivec_Canvas oc, int x1, int y1, int x2, int y2,
                            uint32_t color);
@@ -581,6 +583,28 @@ OLIVECDEF void olivec_circle(Olivec_Canvas oc, int cx, int cy, int r,
                        OLIVEC_AA_RES / OLIVEC_AA_RES;
       uint32_t updated_color = (color & 0x00FFFFFF) | (alpha << (3 * 8));
       olivec_blend_color(&OLIVEC_PIXEL(oc, x, y), updated_color);
+    }
+  }
+}
+
+OLIVECDEF void olivec_ellipse(Olivec_Canvas oc, int cx, int cy, int rx, int ry,
+                              uint32_t color) {
+  Olivec_Normalized_Rect nr = {0};
+  int rx1 = rx + OLIVEC_SIGN(int, rx);
+  int ry1 = ry + OLIVEC_SIGN(int, ry);
+  if (!olivec_normalize_rect(cx - rx1, cy - ry1, 2 * rx1, 2 * ry1, oc.width,
+                             oc.height, &nr))
+    return;
+
+  for (int y = nr.y1; y <= nr.y2; ++y) {
+    for (int x = nr.x1; x <= nr.x2; ++x) {
+      float nx = (x + 0.5 - nr.x1) / (2.0f * rx1);
+      float ny = (y + 0.5 - nr.y1) / (2.0f * ry1);
+      float dx = nx - 0.5;
+      float dy = ny - 0.5;
+      if (dx * dx + dy * dy <= 0.5 * 0.5) {
+        OLIVEC_PIXEL(oc, x, y) = color;
+      }
     }
   }
 }
