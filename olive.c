@@ -937,6 +937,7 @@ OLIVECDEF void olivec_sprite_copy_bilinear(Olivec_Canvas oc, int x, int y,
         // left
         px += w / 2;
         x1 -= 1;
+
         if (x1 < 0)
           x1 = 0;
       } else {
