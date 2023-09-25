@@ -25,7 +25,7 @@ Olivec_Canvas vc_render(float dt) {
   int w = Sadge_width * SRC_SCALE - t * factor;
   int h = Sadge_height * SRC_SCALE + t * factor;
 
-  olivec_sprite_blend(
+  olivec_sprite_copy_bilinear(
       dst_canvas, WIDTH / 2 - w / 2, HEIGHT - h, w, h,
       olivec_canvas(Sadge_pixels, Sadge_width, Sadge_height, Sadge_width));
 

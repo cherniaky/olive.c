@@ -17,12 +17,14 @@ void build_assets(void) {
   MKDIRS("build", "assets");
   CMD("./build/tools/png2c", "-n", "nikita", "-o", "./build/assets/nikita.c",
       "./assets/nikita.png");
-  CMD("./build/tools/png2c", "-n", "tsodinPog", "-o",
-      "./build/assets/tsodinPog.c", "./assets/tsodinPog.png");
   CMD("./build/tools/png2c", "-n", "Sadge", "-o", "./build/assets/Sadge.c",
       "./assets/Sadge.png");
   CMD("./build/tools/png2c", "-n", "tsodinPog", "-o",
       "./build/assets/tsodinPog.c", "./assets/tsodinPog.png");
+  CMD("./build/tools/png2c", "-n", "oldstone", "-o",
+      "./build/assets/oldstone.c", "./assets/oldstone.png");
+  CMD("./build/tools/png2c", "-n", "lavastone", "-o",
+      "./build/assets/lavastone.c", "./assets/lavastone.png");
   CMD("./build/tools/obj2c", "-o", "./build/assets/cupLowPoly.c",
       "./assets/cupLowPoly.obj");
   CMD("./build/tools/obj2c", "-s", "0.40", "-o", "./build/assets/utahTeapot.c",
