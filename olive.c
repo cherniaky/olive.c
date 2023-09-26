@@ -598,6 +598,7 @@ OLIVECDEF void olivec_ellipse(Olivec_Canvas oc, int cx, int cy, int rx, int ry,
 
   for (int y = nr.y1; y <= nr.y2; ++y) {
     for (int x = nr.x1; x <= nr.x2; ++x) {
+
       float nx = (x + 0.5 - nr.x1) / (2.0f * rx1);
       float ny = (y + 0.5 - nr.y1) / (2.0f * ry1);
       float dx = nx - 0.5;
