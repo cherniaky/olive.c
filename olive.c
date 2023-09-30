@@ -603,6 +603,7 @@ OLIVECDEF void olivec_ellipse(Olivec_Canvas oc, int cx, int cy, int rx, int ry,
       float ny = (y + 0.5 - nr.y1) / (2.0f * ry1);
       float dx = nx - 0.5;
       float dy = ny - 0.5;
+
       if (dx * dx + dy * dy <= 0.5 * 0.5) {
         OLIVEC_PIXEL(oc, x, y) = color;
       }
