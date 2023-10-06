@@ -158,6 +158,27 @@ void build_all_vc_demos(void) {
   }
 }
 
+void usage(const char *program) {
+  INFO("Usage: %s [<subcommand>]", program);
+  INFO("Subcommands:");
+  INFO("    tools");
+  INFO("        Build all the tools. Things like png2c, obj2c, etc.");
+  INFO("    assets");
+  INFO("        Build the assets in the assets/ folder.");
+  INFO("        Basically convert their data to C code so we can bake them in "
+       "demos.");
+  INFO("    test[s] [<args>]");
+  INFO("        Build and run test.c");
+  INFO("        If <args> are provided the test utility is run with them.");
+  INFO("    demos [<platform>] [run]");
+  INFO("        Build demos.");
+  INFO("        Available platforms are: term or wasm.");
+  INFO("        Optional [run] runs the demo after the build.");
+  INFO("        [run] is not available for wasm platform.");
+  INFO("    help");
+  INFO("         Print this message");
+}
+
 int main(int argc, char **argv) {
   GO_REBUILD_URSELF(argc, argv);
 
@@ -171,7 +192,7 @@ int main(int argc, char **argv) {
     } else if (strcmp(subcmd, "assets") == 0) {
       // TODO: rebuild specific assets
       build_assets();
-    } else if (strcmp(subcmd, "tests") == 0) {
+    } else if (strcmp(subcmd, "tests") == 0 || strcmp(subcmd, "test") == 0) {
       build_tests();
 
       if (argc > 0) {
@@ -196,6 +217,7 @@ int main(int argc, char **argv) {
             if (argc > 0) {
               const char *run = shift_args(&argc, &argv);
               if (strcmp(run, "run") != 0) {
+                usage(program);
                 PANIC("unknown action `%s` for TERM demo: %s", run, name);
               }
               CMD(CONCAT("./build/demos/", name, ".term"));
@@ -205,6 +227,7 @@ int main(int argc, char **argv) {
             copy_file(CONCAT("./build/demos/", name, ".wasm"),
                       CONCAT("./wasm/", name, ".wasm"));
           } else {
+            usage(program);
             PANIC("unknown demo platform %s", platform);
           }
         } else {
@@ -217,7 +240,10 @@ int main(int argc, char **argv) {
       } else {
         build_all_vc_demos();
       }
+    } else if (strcmp(subcmd, "help") == 0) {
+      usage(program);
     } else {
+      usage(program);
       PANIC("Unknown command `%s`", subcmd);
     }
   } else {

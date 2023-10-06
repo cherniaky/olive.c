@@ -76,7 +76,7 @@ Olivec_Canvas vc_render(float dt) {
         make_vector3(vertices[b][0], vertices[b][1], vertices[b][2]), angle);
     Vector3 v3 = rotate_y(
         make_vector3(vertices[c][0], vertices[c][1], vertices[c][2]), angle);
-    float move = 0.60f;
+    float move = 1.50f;
     v1.z += move;
     v2.z += move;
     v3.z += move;
