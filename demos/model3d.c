@@ -38,7 +38,13 @@ static Vector3 make_vector3(float x, float y, float z) {
   return v3;
 }
 
+#define EPSILON 1e-6
+
 static Vector2 project_3d_2d(Vector3 v3) {
+  if (v3.z < 0)
+    v3.z = -v3.z;
+  if (v3.z < EPSILON)
+    v3.z += EPSILON;
   return make_vector2(v3.x / v3.z, v3.y / v3.z);
 }
 
@@ -70,9 +76,10 @@ Olivec_Canvas vc_render(float dt) {
         make_vector3(vertices[b][0], vertices[b][1], vertices[b][2]), angle);
     Vector3 v3 = rotate_y(
         make_vector3(vertices[c][0], vertices[c][1], vertices[c][2]), angle);
-    v1.z += 1.5;
-    v2.z += 1.5;
-    v3.z += 1.5;
+    float move = 0.60f;
+    v1.z += move;
+    v2.z += move;
+    v3.z += move;
     Vector2 p1 = project_2d_scr(project_3d_2d(v1));
     Vector2 p2 = project_2d_scr(project_3d_2d(v2));
     Vector2 p3 = project_2d_scr(project_3d_2d(v3));
@@ -95,7 +102,11 @@ Olivec_Canvas vc_render(float dt) {
             float z =
                 1 / v1.z * u1 / det + 1 / v2.z * u2 / det + 1 / v3.z * u3 / det;
 
-            if (z > zbuffer[y * WIDTH + x]) {
+            float near = 0.1f;
+            float far = 5.0f;
+            if (z < 1.0f / near && z > 1.0f / far &&
+                z > zbuffer[y * WIDTH + x]) {
+
               zbuffer[y * WIDTH + x] = z;
               OLIVEC_PIXEL(oc, x, y) =
                   mix_colors3(0xFF1818FF, 0xFF18FF18, 0xFFFF1818, u1, u2, det);
