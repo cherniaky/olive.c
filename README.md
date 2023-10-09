@@ -1,5 +1,5 @@
 # Olive.c 
-
+ 
 Simple graphics library that does not have any dependencies and renders everything into the given memory pixel by pixel.
 
 Visit [https://cherniakyura.github.io/olive.c/](https://cherniakyura.github.io/olive.c/) to see some demos.
