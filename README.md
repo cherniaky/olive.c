@@ -1,4 +1,4 @@
-# Olive.c
+# Olive.c 
  
 Simple graphics library that does not have any dependencies and renders everything into the given memory pixel by pixel.
 
